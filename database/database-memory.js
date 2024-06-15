@@ -4,7 +4,15 @@ export class databaseMemory {
     #emails = new Map()
 
     list() {
-        return this.#clients.values()
+        return Array.from(this.#clients.entries()).map((clientsArray) =>{
+            const id = clientsArray[0]
+            const data = clientsArray[1]
+            
+            return {
+                id,
+                ...data
+            }
+        });
     }
 
     create(clients, emails) {

@@ -1,1 +1,25 @@
 POST http://localhost:3333/clients
+Content-Type: application/json
+
+{
+    "name": "Guilherme",
+    "email": "guilherme@gmail.com"
+}
+
+###
+
+GET http://localhost:3333/clients
+
+###
+
+PUT http://localhost:3333/clients/648a786b-9906-423b-8991-cf29cc1b3ceb
+Content-Type: application/json
+
+{
+    "name": "Guilherme Caravieri",
+    "email": "guilhermeC@gmail.com"
+}
+
+###
+
+DELETE  http://localhost:3333/clients/648a786b-9906-423b-8991-cf29cc1b3ceb

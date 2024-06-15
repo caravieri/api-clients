@@ -6,26 +6,43 @@ const server = fastify();
 
 const database = new databaseMemory();
 
-server.post('/clients', (req, res) => {
+server.post('/clients', (request, replay) => {
+
+  const {name, email} = request.body
+
   database.create({
-    name:  'Guilherme',
-    email: 'guilherme@gmail.com'
+    name,
+    email
   })
+
   console.log(database.list());
 
-  return res.status(201).send()
+  return replay.status(201).send()
 })
 
 server.get('/clients', () => {
-    return 'Hello Guilherme!'
+    const clients = database.list();
+    return clients;
 })
 
-server.put('/clients/:id', () => {
-    return 'Hello Node!'
+server.put('/clients/:id', (request, replay) => {
+    const clientsID = request.params.id
+    const {name, email} = request.body
+
+    database.update(clientsID, {
+      name,
+      email
+    });
+
+    return replay.status(204).send()
 }) 
 
-server.delete('/clients/:id', () => {
-    return 'Hello Node!'
+server.delete('/clients/:id', (request, replay) => {
+  const clientsID = request.params.id
+
+  database.delete(clientsID)
+
+  return replay.status(204).send()
 }) 
 
 server.listen({
