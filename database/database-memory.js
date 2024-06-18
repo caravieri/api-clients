@@ -1,31 +1,37 @@
-import { randomUUID } from "node:crypto"
+import { randomUUID } from "node:crypto";
+
 export class databaseMemory {
-    #clients  = new Map()
-    #emails = new Map()
+  #clients = new Map();
+  #emails = new Map();
 
-    list() {
-        return Array.from(this.#clients.entries()).map((clientsArray) =>{
-            const id = clientsArray[0]
-            const data = clientsArray[1]
-            
-            return {
-                id,
-                ...data
-            }
-        });
-    }
+  // get all
+  list() {
+    return Array.from(this.#clients.entries()).map((clientsArray) => {
+      const id = clientsArray[0];
+      const data = clientsArray[1];
 
-    create(clients, emails) {
-        const clientsID = randomUUID()
-        this.#clients.set(clientsID, clients)
-        this.#emails.set(clientsID, emails)
-    }
+      return {
+        id,
+        ...data,
+      };
+    });
+  }
 
-    update(id, clients) {
-        this.#clients.set(id, clients)
-    }
+  getById(id) {
+    // fazer implementação
+  }
 
-    delete(id) {
-        this.#clients.delete(id)
-    }
+  create(clients, emails) {
+    const clientsID = randomUUID();
+    this.#clients.set(clientsID, clients);
+    this.#emails.set(clientsID, emails);
+  }
+
+  update(id, clients) {
+    this.#clients.set(id, clients);
+  }
+
+  delete(id) {
+    this.#clients.delete(id);
+  }
 }
