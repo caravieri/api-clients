@@ -30,7 +30,7 @@ server.post("/clients", (request, reply) => {
 
   // retornar o cliente criado com o id
 
-  return reply.status(201).send();
+  return reply.status(201).send({status_code: 201, mensage: "Cadastro Realizado!"});
 });
 
 server.get("/clients", () => {
@@ -59,7 +59,7 @@ server.put("/clients/:id", (request, reply) => {
 
   // retornar o usuário atualizado com id
 
-  return reply.status(204).send();
+  return reply.status(204).send({status_code: 204, mensage: "Cadastro Editado!"});
 });
 
 // verificar se o usuário existe
@@ -68,7 +68,7 @@ server.delete("/clients/:id", (request, reply) => {
 
   database.delete(clientsID);
 
-  return reply.status(204).send();
+  return reply.status(204).send({status_code: 204, mensage: "Cadastro Apagado!"});
 });
 
 // como exportar requisições no postman
