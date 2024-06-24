@@ -18,7 +18,7 @@ export class databaseMemory {
   }
 
   getById(id) {
-    // fazer implementação
+    return this.clients.find(client => client.id === parseInt(id));
   }
 
   create(clients, emails) {
@@ -34,4 +34,10 @@ export class databaseMemory {
   delete(id) {
     this.#clients.delete(id);
   }
+  findByEmail(email) {
+    return this.clients.find(client => client.email === email);
+  }
 }
+  
+
+
