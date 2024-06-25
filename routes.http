@@ -2,8 +2,8 @@ POST http://localhost:3333/clients
 Content-Type: application/json
 
 {
-    "name": "Guilherme",
-    "email": "guilherme@gmail.com"
+    "name": "Guilherme C",
+    "email": "//@gmail.com"
 }
 
 ###

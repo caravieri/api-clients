@@ -2,21 +2,19 @@ import fastify from "fastify";
 import { databaseMemory } from "./database/database-memory.js";
 
 // configurar porta no dotenv - Feito
-
+const port = process.env.PORT
 const server = fastify();
 const database = new databaseMemory();
 
 import 'dotenv/config'
 
 server.listen({
-  port: process.env.PORT,
-});
-
-console.log("Server is running");
+  port, 
+}, () => console.log("Server is running")); //try catch
 
 const validateEmail = (email) => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return re.test(email)
 };
 
 // corrigir nome do parâmetro - feito
@@ -40,28 +38,19 @@ server.post("/clients", (request, reply) => {
     return reply.status(400).send({ status_code: 400, message: "E-mail já cadastrado" });
   }
 
-
   database.create({
     name,
     email,
   });
 
   // retornar o cliente criado com o id
-
   return reply.status(201).send();
 });
 
-server.get("/clients", () => {
-  const clients = database.list();
-  const client = database.getById(clientId);
-
-  if (!client) {
-    return reply.status(404).send({ status_code: 404, message: "Cliente não encontrado" });
-  }
-
-  return client;
+server.get("/clients", (_request, reply) => {
+const clients = database.getAll()
+  return reply.status(200).send(clients)
 });
-
 
 server.put("/clients/:id", (request, reply) => {
   const clientsID = request.params.id;
@@ -78,7 +67,7 @@ server.put("/clients/:id", (request, reply) => {
   });
 
   // retornar o usuário atualizado com id
-
+  
   return reply.status(204).send();
 });
 

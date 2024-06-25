@@ -5,20 +5,19 @@ export class databaseMemory {
   #emails = new Map();
 
   // get all
-  list() {
-    return Array.from(this.#clients.entries()).map((clientsArray) => {
-      const id = clientsArray[0];
-      const data = clientsArray[1];
-
-      return {
-        id,
-        ...data,
-      };
-    });
+  getAll() {
+    const clients = [];
+    let i = 0;
+    while (i < this.#clients.size) {
+      const client = this.#clients.values().next().value;
+      clients.push(client);
+      i++;
+    }
+    return clients
   }
 
   getById(id) {
-    return this.clients.find(client => client.id === parseInt(id));
+    return this.#clients.get(id); //replicar o que foi feito no getAll
   }
 
   create(clients, emails) {
@@ -34,10 +33,11 @@ export class databaseMemory {
   delete(id) {
     this.#clients.delete(id);
   }
+
   findByEmail(email) {
-    return this.clients.find(client => client.email === email);
+    return this.#clients.get(client => client.email === email); //replicar o que foi feito no getAll
   }
 }
-  
+
 
 
