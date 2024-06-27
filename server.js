@@ -21,30 +21,31 @@ const validateEmail = (email) => {
 server.post("/clients", (request, reply) => {
   const { name, email } = request.body;
 
-  // adicionar condições para verificar se body não está vazio, if's comuns já bastam - Feito
+  // // adicionar condições para verificar se body não está vazio, if's comuns já bastam - Feito
     if (name ===  "" ) return reply.status(400).send({status_code: 400, mensage: "Não é possível criar um nome vazio"})
 
-  if (!email) {
-    return reply.status(400).send({ status_code: 400, message: "E-mail é obrigatório" });
-  }
+  // if (!email) {
+  //   return reply.status(400).send({ status_code: 400, message: "E-mail é obrigatório" });
+  // }
 
-  if (!validateEmail(email)) {
-    return reply.status(400).send({ status_code: 400, message: "Formato de e-mail inválido" });
-  }
+  // if (!validateEmail(email)) {
+  //   return reply.status(400).send({ status_code: 400, message: "Formato de e-mail inválido" });
+  // }
 
 
-  const emailExists = database.findByEmail(email);
-  if (emailExists) {
-    return reply.status(400).send({ status_code: 400, message: "E-mail já cadastrado" });
-  }
+  // const emailExists = database.findByEmail(email);
+  // if (emailExists) {
+  //   return reply.status(400).send({ status_code: 400, message: "E-mail já cadastrado" });
+  // }
 
   database.create({
     name,
     email,
   });
-
+  
+  return reply.status(201).send({ status_code: 201 , message: "Usúario Criado!" });
+  
   // retornar o cliente criado com o id
-  return reply.status(201).send();
 });
 
 server.get("/clients", (_request, reply) => {
