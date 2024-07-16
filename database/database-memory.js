@@ -29,14 +29,14 @@ export class databaseMemory {
     return this.#clients.get(id); //replicar o que foi feito no getAll
   }
 
-  create(clients, emails) {
+  create(client, email) {
     const clientsID = randomUUID();
-    this.#clients.set(clientsID, clients);
-    this.#emails.set(clientsID, emails);
+    this.#clients.set(clientsID, client);
+    this.#emails.set(clientsID, email);
   }
 
-  update(id, clients) {
-    this.#clients.set(id, clients);
+  update(id, client) {
+    this.#clients.set(id, client);
   }
 
   delete(id) {
