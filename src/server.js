@@ -1,7 +1,7 @@
 import fastify from "fastify";
-import { databaseMemory } from "./database/database-memory.js";
+import { databaseMemory } from "../database/database-memory.js";
+import 'dotenv/config' // configurar porta no dotenv - Feito
 
-// configurar porta no dotenv - Feito
 const port = process.env.PORT
 const server = fastify();
 const database = new databaseMemory();
