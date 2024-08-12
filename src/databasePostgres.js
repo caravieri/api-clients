@@ -1,14 +1,9 @@
-// src/databasePostgres.js
-
-import pg from 'pg'; // Importa o módulo pg para interagir com o PostgreSQL
-
-// Desestruturação do módulo Pool da biblioteca pg
+import pg from 'pg'; 
 const { Pool } = pg;
 
-// Classe DatabasePostgres para gerenciar a interação com o banco de dados
 export class DatabasePostgres {
   constructor() {
-    // Criação do pool de conexões com o banco de dados
+  
     this.pool = new Pool({
       user: process.env.DATABASE_USER || 'postgres',
       host: process.env.DATABASE_HOST || 'localhost',
@@ -18,41 +13,36 @@ export class DatabasePostgres {
     });
   }
 
-  // Método para executar consultas SQL
   async query(queryText, params) {
-    const client = await this.pool.connect(); // Conecta ao pool
+    const client = await this.pool.connect(); 
     try {
-      const result = await client.query(queryText, params); // Executa a consulta
-      return result.rows; // Retorna os resultados da consulta
+      const result = await client.query(queryText, params); 
+      return result.rows; 
     } catch (err) {
       console.error('Erro na execução da consulta:', err);
-      throw err; // Lança erro para tratamento em nível superior
+      throw err; 
     } finally {
-      client.release(); // Libera o cliente de volta para o pool
+      client.release(); 
     }
   }
 
-  // Método para obter todos os clientes
   async getAll() {
     const queryText = 'SELECT * FROM clientes;';
-    return this.query(queryText); // Executa a consulta para todos os clientes
+    return this.query(queryText); 
   }
 
-  // Método para buscar cliente por ID
   async getById(id) {
     const queryText = 'SELECT * FROM clientes WHERE id = $1;';
-    const result = await this.query(queryText, [id]); // Executa a consulta com ID
-    return result.length ? result[0] : null; // Retorna o cliente ou null se não encontrado
+    const result = await this.query(queryText, [id]); 
+    return result.length ? result[0] : null; 
   }
 
-  // Método para buscar cliente por e-mail
   async findByEmail(email) {
     const queryText = 'SELECT * FROM clientes WHERE email = $1;';
-    const result = await this.query(queryText, [email]); // Executa a consulta com email
-    return result.length ? result[0] : null; // Retorna o cliente ou null se não encontrado
+    const result = await this.query(queryText, [email]); 
+    return result.length ? result[0] : null; 
   }
 
-  // Método para criar um novo cliente
   async create(client) {
     const { name, email } = client;
     const queryText = `
@@ -60,11 +50,10 @@ export class DatabasePostgres {
       VALUES ($1, $2)
       RETURNING *;
     `;
-    const result = await this.query(queryText, [name, email]); // Executa a consulta de inserção
-    return result[0]; // Retorna o cliente recém-criado
+    const result = await this.query(queryText, [name, email]); 
+    return result[0]; 
   }
 
-  // Método para atualizar cliente por ID
   async update(id, client) {
     const { name, email } = client;
     const queryText = `
@@ -73,13 +62,12 @@ export class DatabasePostgres {
       WHERE id = $3
       RETURNING *;
     `;
-    const result = await this.query(queryText, [name, email, id]); // Executa a consulta de atualização
-    return result[0]; // Retorna o cliente atualizado
+    const result = await this.query(queryText, [name, email, id]); 
+    return result[0]; 
   }
 
-  // Método para deletar cliente por ID
   async delete(id) {
     const queryText = 'DELETE FROM clientes WHERE id = $1;';
-    await this.query(queryText, [id]); // Executa a consulta de exclusão
+    await this.query(queryText, [id]); 
   }
 }
