@@ -1,41 +1,44 @@
 import fastify from "fastify";
-import { databaseMemory } from "../database/database-memory.js";
+import { DatabasePostgres  } from "./databasePostgres.js";
+// import { createTable } from './db.js'
 import 'dotenv/config' // configurar porta no dotenv - Feito
 
 const port = process.env.PORT
 const server = fastify();
-const database = new databaseMemory();
+const database = new DatabasePostgres();
 
 import 'dotenv/config'
+
+// createTable();
 
 server.listen({
   port, 
 }, () => console.log("Server is running")); //try catch
 
-const validateEmail = (email) => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return re.test(email)
-};
+// const validateEmail = (email) => {
+//   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+//   return re.test(email)
+// };
 
 // corrigir nome do parâmetro - feito
 server.post("/clients", (request, reply) => {
   const { name, email } = request.body;
-  const emailExists = database.findByEmail(email);
+  // const emailExists = database.findByEmail(email);
 
-  // adicionar condições para verificar se body não está vazio, if's comuns já bastam - Feito
-  if (name ===  "" ) return reply.status(400).send({status_code: 400, mensage: "Não é possível criar um nome vazio"})
+  // // adicionar condições para verificar se body não está vazio, if's comuns já bastam - Feito
+  // if (name ===  "" ) return reply.status(400).send({status_code: 400, mensage: "Não é possível criar um nome vazio"})
 
-  if (!email) {
-    return reply.status(400).send({ status_code: 400, message: "E-mail é obrigatório" });
-  }
+  // if (!email) {
+  //   return reply.status(400).send({ status_code: 400, message: "E-mail é obrigatório" });
+  // }
 
-  if (!validateEmail(email)) {
-    return reply.status(400).send({ status_code: 400, message: "Formato de e-mail inválido" });
-  }
+  // if (!validateEmail(email)) {
+  //   return reply.status(400).send({ status_code: 400, message: "Formato de e-mail inválido" });
+  // }
 
-  if (emailExists) {
-    return reply.status(400).send({ status_code: 400, message: "E-mail já cadastrado" });
-  }
+  // if (emailExists) {
+  //   return reply.status(400).send({ status_code: 400, message: "E-mail já cadastrado" });
+  // }
 
   database.create({
     name,
@@ -84,6 +87,3 @@ server.delete("/clients/:id", (request, reply) => {
   return reply.status(204).send();
 });
 
-// como exportar requisições no postman
-
-// docker-compose com a imagem do postgres
